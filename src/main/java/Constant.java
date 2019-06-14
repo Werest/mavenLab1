@@ -6,6 +6,7 @@ class Constant {
     String pathResources    = "src/main/resources/img/";
     String pathFLab4        = "Lab4/";
     String pathFLab4_1      = "Lab4_1/";
+    String testPiramid      = "testPiramid/";
 
     String imgPath          = "Nature-259.jpg";
     String girlPretty       = "72651401.jpg";
