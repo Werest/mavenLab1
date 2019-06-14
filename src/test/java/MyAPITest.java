@@ -3,10 +3,7 @@ import org.junit.jupiter.api.Test;
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
-import org.opencv.highgui.HighGui;
 import org.opencv.imgcodecs.Imgcodecs;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class MyAPITest {
 
@@ -70,7 +67,7 @@ class MyAPITest {
     }
 
 
-    String pathImg = new Constant().pathResources + new Constant().imgPath;
+    private String pathImg = new Constant().pathResources + new Constant().imgPath;
     @Test
     void test4_1(){
         //Лабораторная работа 4

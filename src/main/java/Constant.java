@@ -10,7 +10,6 @@ class Constant {
     String imgPath          = "Nature-259.jpg";
     String girlPretty       = "72651401.jpg";
 
-    String nomer            = "aSu3vTtF0Gc.jpg";
     String nomer1           = "nomer1.png";
 
     private final static Logger LOGGER = Logger.getLogger(Constant.class);
@@ -40,11 +39,11 @@ class Constant {
     private static OSType getOperatingSystemType() {
         if (detectedOS == null) {
             String OS = System.getProperty("os.name", "generic").toLowerCase(Locale.ENGLISH);
-            if ((OS.indexOf("mac") >= 0) || (OS.indexOf("darwin") >= 0)) {
+            if ((OS.contains("mac")) || (OS.contains("darwin"))) {
                 detectedOS = OSType.MacOS;
-            } else if (OS.indexOf("win") >= 0) {
+            } else if (OS.contains("win")) {
                 detectedOS = OSType.Windows;
-            } else if (OS.indexOf("nux") >= 0) {
+            } else if (OS.contains("nux")) {
                 detectedOS = OSType.Linux;
             } else {
                 detectedOS = OSType.Other;

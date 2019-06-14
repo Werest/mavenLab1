@@ -3,7 +3,6 @@ import org.opencv.core.Point;
 import org.opencv.highgui.HighGui;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
-import org.opencv.objdetect.CascadeClassifier;
 import org.opencv.photo.Photo;
 
 import javax.swing.*;
@@ -17,22 +16,6 @@ import static org.opencv.imgproc.Imgproc.MORPH_BLACKHAT;
 
 
 class MyAPI {
-
-    void showImage(Mat m){
-        int type = BufferedImage.TYPE_BYTE_GRAY;
-        int bufferSize = m.channels()*m.cols()*m.rows();
-        byte [] b = new byte[bufferSize];
-        m.get(0,0,b);
-        BufferedImage image = new BufferedImage(m.cols(),m.rows(), type);
-        final byte[] targetPixels = ((DataBufferByte) image.getRaster().getDataBuffer()).getData(); System.arraycopy(b, 0, targetPixels, 0, b.length);
-        ImageIcon icon=new ImageIcon(image);
-        JFrame frame=new JFrame();
-        frame.setLayout(new FlowLayout()); frame.setSize(image.getWidth(null)+50, image.getHeight(null)+50); JLabel lbl=new JLabel();
-        lbl.setIcon(icon);
-        frame.add(lbl);
-        frame.setVisible(true); frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    }
-
 
 
     void displayImage(Mat m, String msg) {
@@ -118,32 +101,6 @@ class MyAPI {
     }
 
 
-    void FindFace(String PathImg){
-        new Constant().run("Running Detect Face");
-        CascadeClassifier faceDetector = new CascadeClassifier("src/main/resources/xml/lbpcascade_frontalface.xml");
-        Mat image = Imgcodecs.imread(PathImg);
-
-        showImage(image);
-
-        MatOfRect faceDetections = new MatOfRect();
-        faceDetector.detectMultiScale(image, faceDetections);
-
-        new Constant().run("Detected " + faceDetections.toArray().length + " faces");
-
-        for(Rect rect : faceDetections.toArray()){
-            rectangle(image, new Point(rect.x, rect.y),
-                    new Point(rect.x + rect.width, rect.y + rect.height),
-                    new Scalar(0, 255, 0));
-        }
-
-        Imgcodecs.imwrite(PathImg, image);
-        showImage(image);
-
-
-
-    }
-
-
     //Lab4
     // В случае если параметры цвета — NULL, выбирать все цветовые параметры с помощью генератора случайных чисел.
     // Выполнить метод для различных начальных координат начиная с самой левой верхней точки.
@@ -153,7 +110,6 @@ class MyAPI {
 
             if(red > 255 || red < 0 || green > 255 || green < 0 || blue > 255 || blue < 0) {
                 new Constant().run("Неверно задан цвет");
-
             }else if(x>srcImage.width()){
                 new Constant().run("Неверно задан параметр начала координат X");
             }else if(y>srcImage.height()) {
@@ -218,7 +174,7 @@ class MyAPI {
                     Imgproc.pyrUp( srcImage, srcImage, new Size( srcImage.cols()*2, srcImage.rows()*2 ) );
                     new Constant().run( "** Zoom In: Image x 2" );
                 }else if( c == 'o'){
-                    Imgproc.pyrDown( srcImage, srcImage, new Size( srcImage.cols()/2, srcImage.rows()/2 ) );
+                    Imgproc.pyrDown( srcImage, srcImage, new Size( srcImage.cols()/2.0, srcImage.rows()/2.0 ) );
                     new Constant().run( "** Zoom Out: Image / 2" );
                 }
             }
@@ -305,7 +261,7 @@ class MyAPI {
                 Imgproc.approxPolyDP(point2f, approxContour2f, 0.01 * arcLength, true);
                 approxContour2f.convertTo(approxContour, CvType.CV_32S);
                 Rect rect = Imgproc.boundingRect(approxContour);
-                double ratio = (double) rect.height / rect.width;
+                //double ratio = (double) rect.height / rect.width;
 
 
                 if (approxContour.total() == 4) {
