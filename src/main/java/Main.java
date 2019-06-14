@@ -13,7 +13,7 @@ public class Main {
         cnt.run();
         cnt.run(("Welcome to OpenCV " + Core.VERSION));
 
-        new MyAPI().testPiramid(new Constant().pathResources + new Constant().imgPath);
+        new MyAPI().testPiramid(new Constant().pathResources + new Constant().girlPretty);
 
     }
 }
