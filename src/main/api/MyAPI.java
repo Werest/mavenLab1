@@ -1,3 +1,4 @@
+import nu.pattern.OpenCV;
 import org.opencv.core.*;
 import org.opencv.core.Point;
 import org.opencv.highgui.HighGui;
@@ -159,28 +160,68 @@ class MyAPI {
     //Lab4
     void testPiramid(String pathImg){
         Mat srcImage = Imgcodecs.imread(pathImg);
-
-        Mat mask = new Mat();
-        displayImage(srcImage, "SRC");
+        Mat srcImage1 = Imgcodecs.imread(pathImg);
 
         try {
+
+            String dirpath = new Constant().pathResources + new Constant().testPiramid;
+            /*
+            Mat mask = new Mat();
+            displayImage(srcImage, "SRC");
+
+
+            Imgproc.pyrDown(srcImage, mask);
+            displayImage(mask, "pyrDown native");
+            Imgcodecs.imwrite(dirpath + "Down.jpg", mask);
+
+            Imgproc.pyrUp(mask, mask);
+            displayImage(mask, "pyrUp");
+            Imgcodecs.imwrite(dirpath + "Up.jpg", mask);
+
+            Core.subtract(srcImage, mask, mask);
+            displayImage(mask, "Core");
+            Imgcodecs.imwrite(dirpath + "Core.jpg", mask);
+            */
+
             while (true){
-                HighGui.imshow( "src", srcImage );
+                HighGui.imshow( "CHANGE", srcImage);
                 char c = (char) HighGui.waitKey(0);
                 c = Character.toLowerCase(c);
                 if( c == 27 ){
                     break;
                 }else if( c == 'i'){
-                    Imgproc.pyrUp( srcImage, srcImage, new Size( srcImage.cols()*2, srcImage.rows()*2 ) );
+                    Imgproc.pyrUp(srcImage, srcImage);//, new Size( srcImage.cols()*2, srcImage.rows()*2 ) );
                     new Constant().run( "** Zoom In: Image x 2" );
+                    Imgcodecs.imwrite(dirpath + "Up.jpg", srcImage);
                 }else if( c == 'o'){
-                    Imgproc.pyrDown( srcImage, srcImage, new Size( srcImage.cols()/2.0, srcImage.rows()/2.0 ) );
+                    Imgproc.pyrDown(srcImage, srcImage);//, new Size( srcImage.cols()/2.0, srcImage.rows()/2.0 ) );
                     new Constant().run( "** Zoom Out: Image / 2" );
+                    Imgcodecs.imwrite(dirpath + "Down.jpg", srcImage);
                 }
             }
 
-            Core.subtract(srcImage, mask, mask);
-            displayImage(mask, "Core");
+
+            //Calculates the per-element difference between two arrays or array and a scalar.
+            //Вычисляет разность элементов между двумя массивами или массивом и скаляром.
+
+            //Down Up Esc
+            //o - i - Esc
+
+            HighGui.destroyAllWindows();
+
+            Core.subtract(srcImage1, srcImage, srcImage);
+            //HighGui.imshow("Core", mask);
+            //displayImage(srcImage, "Core");
+            //HighGui.imshow("Core", srcImage);
+
+            Imgcodecs.imwrite(new Constant().pathResources + new Constant().testPiramid + "Core.jpg", srcImage);
+
+
+            new Constant().run("testPiramid - end");
+
+            HighGui.destroyAllWindows();
+            System.exit(0);
+
         }catch (Exception ex){
             new Constant().run("testPiramid " + Arrays.toString(ex.getStackTrace()));
         }
